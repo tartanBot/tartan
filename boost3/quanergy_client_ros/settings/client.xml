@@ -2,7 +2,7 @@
 <Settings>
 
   <DistanceFilter>
-    <min>0.1</min>
+    <min>0.5</min>
     <max>500.0</max>
   </DistanceFilter>
 
@@ -20,11 +20,11 @@
 
 
   <ClientRos>
-    <host>192.168.1.1</host>
+    <host>192.168.1.3</host>
     <port>4141</port>
 
-    <topic>points</topic>
-    <frame>sensor</frame>
+    <topic>quanergyPoints</topic>
+    <frame>quanergySensor</frame>
 
     <organize>true</organize>
     <useRosTime>true</useRosTime>
