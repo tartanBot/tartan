@@ -94,7 +94,7 @@
 
 
     <!--Configure and launch client for quanergy-->
-    <include file="$(find quanergy_client_ros)/launch/client.launch" />
+    <!--<include file="$(find quanergy_client_ros)/launch/client.launch" /> -->
     <!--Configure and launch client for stereo-->
 	  <arg name="ip_address" default="192.168.1.9" />
 	  <arg name="namespace"  default="multisense" />
