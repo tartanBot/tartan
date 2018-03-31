@@ -36,7 +36,7 @@
 	</node>
 
     <!-- Launch hebi teleop node -->
-	<node pkg="hebi" name="stalker_base_motor_commands" type="stalker_base_motor_commands" required="true" output="screen" >
+	<node pkg="hebi" name="stalker_base_motor_commands" type="stalker_base_motor_commands" required="false" output="screen" >
 		<param name="publish_frequency" value="50" /> 
 	</node> 
 
@@ -127,4 +127,20 @@
 	  </node>
 
 	  <include file="$(find sick_3vistort_driver)/launch/sick_3vistort_driver.launch" />
+
+
+
+			<!-- Launch gps heading node, which publishes an IMU with orientations calculated using consecutive GPS coordinates -->
+	<node pkg="boost_gps_heading" type="boost_gps_imu_publisher" name="gps_imu_publisher_node" required="true" output="screen"/>
+
+	<!-- <node pkg="boost_gps_heading" type="boost_utm_avg_heading_service_node" name="gps_heading_service_node" output="screen"/> -->
+
+		<!-- Launch ukf_odom node, which fuses the all the sensors into one translationally relative and orientationally absolute state estimate-->
+	<include file="$(find boost_navigation)/launch/ukf_odom.launch"/> 
+
+		<!-- Launch coarse_gps_odometry node, which combines location in UTM coordinates with absolute orientation from robot_localization node above -->
+		<node pkg="boost_coarse_gps_odometry" type="boost_coarse_gps_odometry_node" name="coarse_gps_odometry_node" output="screen">
+		<param name="publish_tf" value="true" />
+	</node>
+
 </launch>
