@@ -255,7 +255,7 @@ int main(int argc, char **argv)
 
 	ros::NodeHandle priv_node("~");
 	priv_node.param<std::string>("frame_id", frame_id, "odom/coarse_gps");
-	priv_node.param<std::string>("child_frame_id", child_frame_id, "base_link");
+	priv_node.param<std::string>("child_frame_id", child_frame_id, "base_BRU");
   priv_node.param<bool>("publish_tf", publish_tf, true);
 
 
