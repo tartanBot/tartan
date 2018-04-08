@@ -63,10 +63,27 @@ double z_datum = 1227.5;
 // double y_datum = 3797238.64635;
 // double z_datum = 7.318;
 
+int got_gps=0;
+
 
 // void coarseOdomCallback(const nav_msgs::Odometry::ConstPtr& trans_msg, const nav_msgs::Odometry::ConstPtr& orient_msg)
 void coarseOdomCallback(const nav_msgs::Odometry::ConstPtr& trans_msg, const sensor_msgs::Imu::ConstPtr& orient_msg)
 {
+  
+  if(!got_gps)
+  {
+    nav_msgs::Odometry odom=*trans_msg;
+    got_gps=1;
+    x_datum = odom.pose.pose.position.x;
+    y_datum = odom.pose.pose.position.y;
+    z_datum = odom.pose.pose.position.z;
+
+    ROS_ERROR_STREAM("X:"<<odom.pose.pose.position.x<<"y:"<<odom.pose.pose.position.y<<"Z:"<<odom.pose.pose.position.z);
+
+    return;
+  }
+  
+  
   // double dy_max = 0.01;
 	// ROS_DEBUG_STREAM("Got into callback!");-
   // ROS_INFO_STREAM("Time difference of fix and imu topics is :" << dt);
@@ -110,6 +127,8 @@ void coarseOdomCallback(const nav_msgs::Odometry::ConstPtr& trans_msg, const sen
 	double roll, pitch, yaw; // tilt angles
 	m.getRPY(roll, pitch, yaw);
 	double heading = yaw; 
+
+  
   // ROS_INFO_STREAM("Roll: " << roll << "\tPitch: " << pitch << "\tYaw: " << yaw << "\n");
   // ROS_INFO_STREAM("Heading: " << heading << "\n");
 
@@ -136,6 +155,14 @@ void coarseOdomCallback(const nav_msgs::Odometry::ConstPtr& trans_msg, const sen
 	odom.pose.pose.position.x = (x_datum - trans_msg->pose.pose.position.x) + dxg;
 	odom.pose.pose.position.y = (y_datum - trans_msg->pose.pose.position.y) + dyg;
 	odom.pose.pose.position.z = z_datum - trans_msg->pose.pose.position.z;
+
+  odom.pose.pose.position.x=-odom.pose.pose.position.x;
+  odom.pose.pose.position.y=-odom.pose.pose.position.y;
+
+  // double temp;
+  // temp=odom.pose.pose.position.y;
+  // odom.pose.pose.position.y=odom.pose.pose.position.x;
+  // odom.pose.pose.position.x=-temp;
 
 	// odom.pose.pose.orientation = orient_msg->pose.pose.orientation;
   odom.pose.pose.orientation = orient_msg->orientation;
@@ -206,8 +233,17 @@ void coarseOdomCallback(const nav_msgs::Odometry::ConstPtr& trans_msg, const sen
 	return;
 }
 
+// This is just to get datum
+// void utm_callback(const nav_msgs::Odometry::ConstPtr& trans_msg)
+// {  
+//   nav_msgs::Odometry odom;
+//   // got_gps=1;
+//   x_datum = odom.pose.pose.position.x;
+//   y_datum = odom.pose.pose.position.y;
+//   z_datum = odom.pose.pose.position.z;
 
-
+//   ROS_ERROR_STREAM("X:"<<odom.pose.pose.position.x<<"y:"<<odom.pose.pose.position.y<<"Z:"<<odom.pose.pose.position.z);
+// }
 
 int main(int argc, char **argv)
 {
@@ -226,6 +262,17 @@ int main(int argc, char **argv)
 	message_filters::Subscriber<nav_msgs::Odometry> utm_sub(nh, "odometry/utm", 10);
 	// message_filters::Subscriber<nav_msgs::Odometry> orient_sub(nh, "odometry/filtered_imu_encoders", 10);
   message_filters::Subscriber<sensor_msgs::Imu> orient_sub(nh, "gps/imu/data", 10);
+  
+  // ros::Subscriber gps_utm_sub = nh.subscribe("/odometry/utm", 1, &utm_callback);
+  // ros::Rate r(20.0);
+
+  // while(ros::ok())
+  // {
+  //   if(got_gps)
+  //   {
+  //     break;
+  //   }
+  // }
 	
 	// typedef message_filters::sync_policies::ApproximateTime<nav_msgs::Odometry, nav_msgs::Odometry> MySyncPolicy;
   typedef message_filters::sync_policies::ApproximateTime<nav_msgs::Odometry, sensor_msgs::Imu> MySyncPolicy;
@@ -234,17 +281,15 @@ int main(int argc, char **argv)
 	message_filters::Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), utm_sub, orient_sub);
 	sync.registerCallback(boost::bind(&coarseOdomCallback, _1, _2));
 
-
 	odom_pub = nh.advertise<nav_msgs::Odometry>("odometry/coarse_gps", 1, false);
 
 	tf::TransformBroadcaster odom_broadcaster;
 
 	ros::Time last_time = ros::Time::now();
 
-	ros::Rate r(20.0);
+  ros::Rate r(20.0);
 	while (ros::ok())
 	{
-
 		last_time = odom.header.stamp;
 		ros::spinOnce();   
 		// Check for not same topic
