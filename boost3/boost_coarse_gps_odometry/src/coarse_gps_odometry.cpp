@@ -43,16 +43,18 @@ double gps_height = 1.702; // height of gps receiver in meters
 /*
  * Simpson Fields 2017
  */
+/*
 double x_datum = 342138.0;
 double y_datum = 3833523.0;
 double z_datum = 1227.5;
+ */
 
 /*
  * The Cut
  */
-// double x_datum = 589611.370198;
-// double y_datum = 4477380.87125;
-// double z_datum = 257.035;
+ double x_datum = 589611.370198;
+ double y_datum = 4477380.87125;
+ double z_datum = 257.035;
 
  /*
   * Pee Dee Fields, Florence SC
