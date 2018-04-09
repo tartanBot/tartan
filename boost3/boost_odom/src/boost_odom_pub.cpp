@@ -98,8 +98,10 @@ int main(int argc, char **argv)
   double x = 0.0;
   double y = 0.0;
   double th = 0.0;
+  
+  float loop_rate=50.0;
 
-  ros::Rate r(50.0);  // Publishing rate, in Hz
+  ros::Rate r(loop_rate);  // Publishing rate, in Hz
   while (ros::ok())
   {
     // Compute odometry in a typical way given the velocities of the robot
@@ -112,8 +114,9 @@ int main(int argc, char **argv)
     if (dt < 1e-6) {
       ROS_INFO("Time step in boost_odom is nearly zero, dt is %5.10f!", dt);
       last_time = current_time;
-      ros::spinOnce();
-      continue;
+      dt=1/loop_rate;
+      // ros::spinOnce();
+      // continue;
     }
 
     // Compute average velocity, fl rl fr rr
@@ -187,7 +190,7 @@ int main(int argc, char **argv)
     odom_trans.transform.rotation = odom_quat;
 
     // send the transform
-    odom_broadcaster.sendTransform(odom_trans);
+    // odom_broadcaster.sendTransform(odom_trans);
 
     //next, we'll publish the odometry message over ROS
     nav_msgs::Odometry odom;
@@ -201,7 +204,7 @@ int main(int argc, char **argv)
     odom.pose.pose.orientation = odom_quat;
 
     //set the velocity IN THE BODY FRAME FOR ROBOT_LOCALIZATION 
-    odom.child_frame_id = "base_link";
+    odom.child_frame_id = "base_odom";
     odom.twist.twist.linear.x = (leftAvgVel + rightAvgVel) / 2;
     odom.twist.twist.linear.y = 0.0;
     odom.twist.twist.angular.z = (rightAvgVel - leftAvgVel) / TRACK * YAW_RATE_MULTIPLIER;;

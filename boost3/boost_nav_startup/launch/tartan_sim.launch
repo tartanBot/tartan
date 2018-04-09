@@ -18,6 +18,9 @@
 		<remap from="odom" to="odometry/utm"/>
 	</node>-->
 
+	<!-- Start boost_odom publisher -->
+	<node pkg="boost_odom" name="boost_odom_pub" type="boost_odom_pub" required="false" output="screen"/>
+
 	<!-- Launch coarse_gps_odometry node, which combines location in UTM coordinates with absolute orientation from robot_localization node above -->
 	<node pkg="boost_coarse_gps_odometry" type="boost_coarse_gps_odometry_node" name="coarse_gps_odometry_node" output="screen">
 		<param name="publish_tf" value="true" />

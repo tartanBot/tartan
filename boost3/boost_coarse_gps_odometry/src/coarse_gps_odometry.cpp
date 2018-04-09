@@ -303,7 +303,7 @@ int main(int argc, char **argv)
         if (publish_tf)
         {
           // ROS_INFO_STREAM("Publishing tf!");
-          odom_broadcaster.sendTransform(odom_tf);
+          // odom_broadcaster.sendTransform(odom_tf);
         }
     	}
     	else
