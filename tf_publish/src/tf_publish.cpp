@@ -235,7 +235,7 @@ int main(int argc, char** argv)
   imu_pub = n.advertise<sensor_msgs::Imu>("imu_yaw_corrected", 1, false);
 
   ros::Subscriber imu_sub = n.subscribe("/mti/sensor/imu", 10, &imu_callback);
-  ros::Subscriber gps_sub = n.subscribe("/odometry/coarse_gps", 10, &gps_callback);
+  // ros::Subscriber gps_sub = n.subscribe("/odometry/coarse_gps", 10, &gps_callback);
   // ros::Subscriber filtered_sub = n.subscribe("/odometry/coarse_gps", 10, &filtered_odom_cb);
 
   ros::Rate loop_rate(20);

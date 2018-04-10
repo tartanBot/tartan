@@ -73,7 +73,7 @@ int main(int argc, char **argv)
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("wheel_encoder/odom", 1);
   tf::TransformBroadcaster odom_broadcaster;
   
-  joint_time_stamp = ros::Time::now();
+  // joint_time_stamp = ros::Time::now();
 
   ros::Time last_time;
   last_time = ros::Time::now();
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
   ros::Subscriber sub_joint_command = n.subscribe("joint_states", 1, jointstateCallback);
 
   // Sleep to allow time for joint_states to be updated, particularly position of joints, necessary?
-  sleep(8);  
+  // sleep(8);  
   ros::spinOnce();
 
   // for (int i = 0; i < 4; i++)
@@ -121,8 +121,8 @@ int main(int argc, char **argv)
       // ROS_INFO("Time step in boost_odom is nearly zero, dt is %5.10f!", dt);
       last_time = current_time;
       dt=1/loop_rate;
-      // ros::spinOnce();
-      // continue;
+      ros::spinOnce();
+      continue;
     }
 
     // Compute average velocity, fl rl fr rr
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
 
     //first, we'll publish the transform over tf
     geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = ros::Time::now();;
+    odom_trans.header.stamp = ros::Time::now();
     odom_trans.header.frame_id = "wheel_encoder/odom";
     odom_trans.child_frame_id = "base_link";
 
