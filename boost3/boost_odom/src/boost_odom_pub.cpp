@@ -21,6 +21,8 @@ std::vector<double> previousVelocity (4, 0);
 
 ros::Time current_time;
 
+ros::Time joint_time_stamp;
+
 // double x;
 // double y;
 // double th;
@@ -56,6 +58,8 @@ void jointstateCallback(const sensor_msgs::JointState::ConstPtr& msg)
 
   // Get current time
   current_time = ros::Time::now();
+
+  joint_time_stamp = msg->header.stamp;
 }
 
 
@@ -68,6 +72,8 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("wheel_encoder/odom", 1);
   tf::TransformBroadcaster odom_broadcaster;
+  
+  joint_time_stamp = ros::Time::now();
 
   ros::Time last_time;
   last_time = ros::Time::now();
@@ -112,7 +118,7 @@ int main(int argc, char **argv)
     // ROS_INFO("dt is %5.10f!", dt);
     // check for division by zero
     if (dt < 1e-6) {
-      ROS_INFO("Time step in boost_odom is nearly zero, dt is %5.10f!", dt);
+      // ROS_INFO("Time step in boost_odom is nearly zero, dt is %5.10f!", dt);
       last_time = current_time;
       dt=1/loop_rate;
       // ros::spinOnce();
@@ -194,7 +200,7 @@ int main(int argc, char **argv)
 
     //next, we'll publish the odometry message over ROS
     nav_msgs::Odometry odom;
-    odom.header.stamp = current_time;
+    odom.header.stamp = joint_time_stamp;
     odom.header.frame_id = "wheel_encoder/odom";
 
     //set the position
@@ -229,6 +235,8 @@ int main(int argc, char **argv)
       odom.pose.covariance[21] = 1e6;
       odom.pose.covariance[28] = 1e6;
       odom.pose.covariance[35] = 1e-9;
+
+      ROS_INFO("stopped");
     }
     else // robot wheels are moving
     {
@@ -245,6 +253,8 @@ int main(int argc, char **argv)
       odom.pose.covariance[21] = 1e6;
       odom.pose.covariance[28] = 1e6;
       odom.pose.covariance[35] = 0.174;
+
+      ROS_INFO("moving");
     }
 
     //publish the message

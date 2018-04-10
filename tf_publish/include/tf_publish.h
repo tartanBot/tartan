@@ -11,6 +11,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/QuaternionStamped.h>
 #include "nav_msgs/Odometry.h"
+#include <sensor_msgs/Imu.h>
 
 
 

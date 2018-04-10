@@ -20,7 +20,6 @@
 #include <math.h>
 
 
-
 static ros::Publisher odom_pub;
 // static tf::TransformBroadcaster odom_broadcaster;
 std::string frame_id, child_frame_id;
