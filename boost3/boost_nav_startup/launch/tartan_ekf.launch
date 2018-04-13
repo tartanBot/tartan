@@ -2,7 +2,7 @@
 
   <param name="/use_sim_time" value="true"/>
 
-  <rosparam command="load" file="$(find boost_nav_startup)/params/backup.yaml" />
+  <rosparam command="load" file="$(find boost_nav_startup)/params/tartan_ekf.yaml" />
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true">
     <remap from="odometry/filtered" to="odometry/filtered_odom"/>
