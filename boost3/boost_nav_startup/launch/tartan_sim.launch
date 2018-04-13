@@ -13,6 +13,8 @@
 
 	<include file="$(find boost_nav_startup)/launch/move_base.launch"/> 
 
+	<include file="$(find boost_nav_startup)/launch/filterSICK.launch"/> 
+
 	<!-- urdf xml robot description loaded on the Parameter Server-->
 	<!--<param name="robot_description" textfile="$(find boost_urdf)/robots/boost_stalker.urdf" />-->
 
