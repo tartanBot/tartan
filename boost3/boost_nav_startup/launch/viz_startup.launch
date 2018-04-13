@@ -5,6 +5,7 @@
 	<param name="robot_description" textfile="$(find boost_urdf)/robots/boost_stalker.urdf" />
 
 	<!-- robot visualization -->
-	<node name="rviz" pkg="rviz" type="rviz" required="true" />
+	<node name="rviz" pkg="rviz" type="rviz" required="true">
+	</node>
 
 </launch>

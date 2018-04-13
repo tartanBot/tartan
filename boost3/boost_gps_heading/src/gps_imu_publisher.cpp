@@ -161,9 +161,31 @@ void imuGPSCallback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 
 	new_imu_msg.orientation = pose_quat;
 
-	new_imu_msg.orientation_covariance[0] = 1e-6;
-	new_imu_msg.orientation_covariance[4] = 1e-6;
-	new_imu_msg.orientation_covariance[8] = 1e-6;
+	// new_imu_msg.orientation_covariance[0] = 1e-6;
+	// new_imu_msg.orientation_covariance[4] = 1e-6;
+	// new_imu_msg.orientation_covariance[8] = 1e-6;
+
+
+	// Adding angular velocity and linear accelaration valuesstd_msgs/Header header
+	// geometry_msgs/Quaternion orientation
+	// float64[9] orientation_covariance
+	// geometry_msgs/Vector3 angular_velocity
+	// float64[9] angular_velocity_covariance
+	// geometry_msgs/Vector3 linear_acceleration
+	// float64[9] linear_acceleration_covariance
+
+	new_imu_msg.orientation_covariance=imu_msg->orientation_covariance;
+	new_imu_msg.angular_velocity=imu_msg->angular_velocity;
+	new_imu_msg.angular_velocity_covariance=imu_msg->angular_velocity_covariance;
+	new_imu_msg.linear_acceleration=imu_msg->linear_acceleration;
+	new_imu_msg.linear_acceleration_covariance=imu_msg->linear_acceleration_covariance;
+
+
+
+	
+
+	
+
 
 	// ROS_INFO_STREAM("Publishing new imu msg!");
 	double numSub = imu_pub.getNumSubscribers();

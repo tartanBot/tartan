@@ -1,0 +1,10 @@
+global_costmap:
+  global_frame: wheel_encoder/odom
+  robot_base_frame: base_link
+  update_frequency: 1   #5
+  static_map: false
+  width: 30.0
+  height: 30.0
+  tf_tolerance: 0.5
+  #map_type: costmap
+  #rolling_window: true

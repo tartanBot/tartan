@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<launch>
+
+  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+  <!--<node pkg="tf" type="static_transform_publisher" name="sensor_to_velodyne_remap" args="0 0 0 0 0 0 1 sensor velodyne 1000" />-->
+
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+  	<arg name="calibration" value="$(find flysense_onboard)/config_files/VeloView-VLP-16-HiRes.yaml" />
+  </include>
+
+   <!-- Run a Crop box filter to remove the additional points to clean NaNs -->
+  <node pkg="nodelet" type="nodelet" name="cropbox" args="load pcl/CropBox pcl_manager" output="screen">
+    <remap from="~input" to="/velodyne_points" />
+    <rosparam>
+    
+    </rosparam>
+  </node>
+
+   <!-- Run a Crop box filter to remove the additional points to clean NaNs -->
+  <node pkg="nodelet" type="nodelet" name="cropbox2" args="load pcl/CropBox pcl_manager" output="screen">
+    <remap from="~input" to="/cropbox/output" />
+    <rosparam>
+      
+    </rosparam>
+  </node>  
+
+  <!-- Run a passthrough filter to clean NaNs -->
+  <!--<node pkg="nodelet" type="nodelet" name="voxelgrid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/cropbox2/output" />
+    <rosparam>
+      filter_field_name: z
+      filter_limit_min: -0.6
+      filter_limit_max: 15
+      leaf_size: 0.05
+    </rosparam>
+  </node>-->
+
+  <node pkg="nodelet" type="nodelet" name="statistical_outlier" args="load pcl/StatisticalOutlierRemoval pcl_manager" output="screen">
+    <remap from="~input" to="/cropbox2/output" />
+     <rosparam>
+      mean_k: 5
+      stddev: 0.1
+      negative: 0
+    </rosparam>
+  </node>
+
+  <node pkg="nodelet" type="nodelet" name="statistical_outlier_sound" args="load pcl/StatisticalOutlierRemoval pcl_manager" output="screen">
+    <remap from="~input" to="/velodyne_obstacles_3D" />
+     <rosparam>
+      mean_k: 5
+      stddev: 0.1
+      negative: 0
+    </rosparam>
+  </node>
+
+	<!-- mode_type can take two values 0 for quadFlight, 1 for heliFlight, 2 for quadSIM, 3 for HeliSIM -->
+  <param name="mode_type" type="int" value="0"/>
+
+  <node name="preprocessing_node" pkg="flysense_onboard" type="preprocessing_node">
+  </node>
+
+  <include file="$(find dji_sdk)/launch/sdk.launch"/>
+
+</launch>
