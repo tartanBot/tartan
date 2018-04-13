@@ -4,14 +4,21 @@
 	
 	<param name="/use_sim_time" value="true"/>
 
+		<!-- publish all the frames to TF -->
+	<node name="tf_publish" pkg="tf_publish" type="tf_publish" required="true" output="screen"/>
+
+	<!-- Launch ukf_odom node, which fuses the all the sensors into one translationally relative and orientationally absolute state estimate-->
+	<include file="$(find boost_nav_startup)/launch/dual_ekf_shivang.launch"/> 
+
+
+	<include file="$(find boost_nav_startup)/launch/move_base.launch"/> 
+
 	<!-- urdf xml robot description loaded on the Parameter Server-->
 	<!--<param name="robot_description" textfile="$(find boost_urdf)/robots/boost_stalker.urdf" />-->
 
 	<!-- publish all the frames to TF -->
 	<!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" required="true" output="screen"/>-->
 
-	<!-- publish all the frames to TF -->
-	<node name="tf_publish" pkg="tf_publish" type="tf_publish" required="true" output="screen"/>
 
 	<!-- Launch gps_common utm_odometry_node, which will output GPS fix in UTM coordinate frame -->
 	<!--<node pkg="gps_common" type="utm_odometry_node" name="utm_odometry_node" required="true" output="screen" >
@@ -26,9 +33,6 @@
 	<!--<node pkg="boost_coarse_gps_odometry" type="boost_coarse_gps_odometry_node" name="coarse_gps_odometry_node" output="screen">
 		<param name="publish_tf" value="true" />
 	</node>-->
-
-	<!-- Launch ukf_odom node, which fuses the all the sensors into one translationally relative and orientationally absolute state estimate-->
-	<include file="$(find boost_nav_startup)/launch/dual_ekf_shivang.launch"/> 
 
 
 </launch>
