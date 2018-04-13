@@ -11,7 +11,7 @@
       output_frame: /camera_tof
     </rosparam>
    </node>
-  <node pkg="nodelet" type="nodelet" name="passthroughZ" args="load pcl/PassThrough tartan_pcl_man" output="screen">
+  <!--<node pkg="nodelet" type="nodelet" name="passthroughZ" args="load pcl/PassThrough tartan_pcl_man" output="screen">
     <remap from="~input" to="/sick_3vistort_driver/points" />
     <rosparam>
       filter_field_name: z
@@ -20,13 +20,13 @@
       filter_limit_negative: False
       output_frame: /camera_tof
     </rosparam>
-   </node>
+   </node>-->
   <node pkg="nodelet" type="nodelet" name="statOutliers" args="load pcl/StatisticalOutlierRemoval tartan_pcl_man" output="screen">
     <remap from="~input" to="/sick_3vistort_driver/points" />
     <remap from="~output" to="/statOutliers/inliers" />
     <rosparam>
         mean_k: 10
-        stddev: 1.5
+        stddev: 2.0
     </rosparam>
    </node>
 </launch>
