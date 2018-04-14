@@ -21,4 +21,11 @@
       output_frame: /camera_tof
     </rosparam>
    </node>
+  <node pkg="nodelet" type="nodelet" name="statOutliers" args="load pcl/StatisticalOutlierRemoval tartan_pcl_man" output="screen">
+    <remap from="~input" to="/sick_3vistort_driver/points" />
+    <rosparam>
+        mean_k: 10
+        stddev: 1.5
+    </rosparam>
+   </node>
 </launch>
