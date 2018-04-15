@@ -238,7 +238,7 @@ int main(int argc, char** argv)
   // ros::Subscriber gps_sub = n.subscribe("/odometry/coarse_gps", 10, &gps_callback);
   // ros::Subscriber filtered_sub = n.subscribe("/odometry/coarse_gps", 10, &filtered_odom_cb);
 
-  ros::Rate loop_rate(20);
+  ros::Rate loop_rate(100);
   while(ros::ok()) {
     ros::spinOnce();
     loop_rate.sleep();
