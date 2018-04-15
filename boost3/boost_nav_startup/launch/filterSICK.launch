@@ -25,8 +25,8 @@
     <remap from="~input" to="/sick_3vistort_driver/points" />
     <remap from="~output" to="/statOutliers/inliers" />
     <rosparam>
-        mean_k: 10
-        stddev: 2.0
+        mean_k: 15
+        stddev: 0.9
     </rosparam>
    </node>
 </launch>
