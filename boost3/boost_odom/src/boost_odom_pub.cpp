@@ -196,7 +196,7 @@ int main(int argc, char **argv)
     odom_trans.transform.rotation = odom_quat;
 
     // send the transform
-    // odom_broadcaster.sendTransform(odom_trans);
+    odom_broadcaster.sendTransform(odom_trans);
 
     //next, we'll publish the odometry message over ROS
     nav_msgs::Odometry odom;
@@ -236,7 +236,7 @@ int main(int argc, char **argv)
       odom.pose.covariance[28] = 1e6;
       odom.pose.covariance[35] = 1e-9;
 
-      ROS_INFO("stopped");
+      //ROS_INFO("stopped");
     }
     else // robot wheels are moving
     {
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
       odom.pose.covariance[28] = 1e6;
       odom.pose.covariance[35] = 0.174;
 
-      ROS_INFO("moving");
+      //ROS_INFO("moving");
     }
 
     //publish the message
