@@ -76,12 +76,12 @@ void publish_tf()
   br4.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "GPS_link"));
 
 
-  static tf::TransformBroadcaster br5;
-  transform.setOrigin( tf::Vector3(IMU_X, IMU_Y, IMU_Z) );
-  tf::Matrix3x3 mat4(1,0,0,0,1,0,0,0,1);
-  mat4.getRotation(q2);
-  transform.setRotation(q2);
-  br5.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", " mti_imu_link"));
+  // static tf::TransformBroadcaster br5;
+  // transform.setOrigin( tf::Vector3(IMU_X, IMU_Y, IMU_Z) );
+  // tf::Matrix3x3 mat4(1,0,0,0,1,0,0,0,1);
+  // mat4.getRotation(q2);
+  // transform.setRotation(q2);
+  // br5.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", " mti_imu_link"));
 
   // static tf::TransformBroadcaster br;
   // transform.setOrigin( tf::Vector3(position.point.x,position.point.y,position.point.z) );

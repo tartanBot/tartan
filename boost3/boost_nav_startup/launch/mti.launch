@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+<!-- Configure Xsens IMU -->
+	<node pkg="xsens_driver" type="mtnode.py" name="mtnode" respawn="true" output="screen" >
+		<param name="device" value="/dev/xsens" />
+		<param name="baudrate" value="115200" />
+		<param name="frame_id" value="mti_imu_link" />
+		<param name="frame_local" value="ENU" />
+		<param name="frame_local_imu" value="ENU" />
+	</node>
+
+</launch>

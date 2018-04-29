@@ -196,7 +196,7 @@ int main(int argc, char **argv)
     odom_trans.transform.rotation = odom_quat;
 
     // send the transform
-    odom_broadcaster.sendTransform(odom_trans);
+    //odom_broadcaster.sendTransform(odom_trans);
 
     //next, we'll publish the odometry message over ROS
     nav_msgs::Odometry odom;
@@ -210,7 +210,7 @@ int main(int argc, char **argv)
     odom.pose.pose.orientation = odom_quat;
 
     //set the velocity IN THE BODY FRAME FOR ROBOT_LOCALIZATION 
-    odom.child_frame_id = "base_odom";
+    odom.child_frame_id = "base_link";
     odom.twist.twist.linear.x = (leftAvgVel + rightAvgVel) / 2;
     odom.twist.twist.linear.y = 0.0;
     odom.twist.twist.angular.z = (rightAvgVel - leftAvgVel) / TRACK * YAW_RATE_MULTIPLIER;;

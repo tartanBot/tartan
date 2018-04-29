@@ -3,18 +3,21 @@
 <!-- Start joy node -->
 	
 	<!-- publish all the frames to TF -->
-	<!-- <node name="tf_publish" pkg="tf_publish" type="tf_publish" required="true" output="screen"/> -->
+	<node name="tf_publish" pkg="tf_publish" type="tf_publish" required="true" output="screen"/>
 
 	<!-- Launch ukf_odom node, which fuses the all the sensors into one translationally relative and orientationally absolute state estimate-->
-	<!--<include file="$(find boost_nav_startup)/launch/tartan_ekf.launch"/> -->
-
-
-	<include file="$(find boost_nav_startup)/launch/move_base.launch"/> 
-
-	<include file="$(find boost_nav_startup)/launch/filterSICK.launch"/> 
+	<include file="$(find boost_nav_startup)/launch/tartan_ekf.launch"/>
 
 	<include file="$(find boost_nav_startup)/launch/all_sensors.launch"/> 
 
-	<include file="$(find boost_nav_startup)/launch/viz_startup.launch"/> 
+	 <include file="$(find boost_nav_startup)/launch/move_base.launch"/> 
+
+
+
+	<include file="$(find boost_nav_startup)/launch/filterSICK.launch"/> 
+
+	 
+
+	<include file="$(find boost_nav_startup)/launch/viz_startup.launch"/>
 
 </launch>
