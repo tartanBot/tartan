@@ -160,48 +160,31 @@ void gps_callback(const nav_msgs::Odometry &msg)
   // double rollImu, pitchImu, yawImu; // tilt angles
   // m.getRPY(rollImu, pitchImu, yawImu);
   // ROS_ERROR_STREAM("Roll:"<<rollImu*180.0/PI<<"Pitch:"<<pitchImu*180.0/PI<<"Yaw:"<<yawImu*180.0/PI);
-
 }
 
 void imu_callback(const sensor_msgs::Imu::ConstPtr& imu_msg)
 {
-  // Get roll and pitch from xsens IMU
-	double quat_x = imu_msg->orientation.x;
-  double quat_y = imu_msg->orientation.y;
-  double quat_z = imu_msg->orientation.z;
-  double quat_w = imu_msg->orientation.w;
-  tf::Quaternion q(quat_x, quat_y, quat_z, quat_w);
-  tf::Matrix3x3 m(q);
-  double rollImu, pitchImu, yawImu; // tilt angles
-  m.getRPY(rollImu, pitchImu, yawImu);
-
-	// Yaw is being calculated right now in 
-	// yawImu = yawImu + 3.14159;
-
-  // TODO HACK change this hardcoded number 65 deg from east is heading where we started during the NSH test
-  yawImu = yawImu + 1.48353;//1.13446;
-
-  // ROS_ERROR_STREAM("Roll:"<<rollImu*180.0/PI<<"Pitch:"<<pitchImu*180.0/PI<<"Yaw:"<<yawImu*180.0/PI);
-
   // Populate and publish message
 	sensor_msgs::Imu new_imu_msg;
 
 	new_imu_msg.header.frame_id = "mti_imu_link";
 	new_imu_msg.header.stamp = ros::Time::now();
 
-	geometry_msgs::Quaternion pose_quat = tf::createQuaternionMsgFromRollPitchYaw(rollImu, pitchImu, yawImu);
+	new_imu_msg.orientation = imu_msg->orientation;
+  new_imu_msg.angular_velocity=imu_msg->angular_velocity;
+  new_imu_msg.linear_acceleration=imu_msg->linear_acceleration;
 
-	new_imu_msg.orientation = pose_quat;
+	new_imu_msg.orientation_covariance[0] = 0;//1e-6;
+	new_imu_msg.orientation_covariance[4] = 0;//1e-6;
+	new_imu_msg.orientation_covariance[8] = 0;//1e-6;
 
-	new_imu_msg.orientation_covariance[0] = 1e-6;
-	new_imu_msg.orientation_covariance[4] = 1e-6;
-	new_imu_msg.orientation_covariance[8] = 1e-6;
-
-  // new_imu_msg.orientation_covariance=imu_msg->orientation_covariance;
-	new_imu_msg.angular_velocity=imu_msg->angular_velocity;
-	new_imu_msg.angular_velocity_covariance=imu_msg->angular_velocity_covariance;
-	new_imu_msg.linear_acceleration=imu_msg->linear_acceleration;
-	new_imu_msg.linear_acceleration_covariance=imu_msg->linear_acceleration_covariance;
+	new_imu_msg.angular_velocity_covariance[0]=0;//1e-3;
+  new_imu_msg.angular_velocity_covariance[4]=0;//1e-3;
+  new_imu_msg.angular_velocity_covariance[8]=0;//1e-3;
+	
+	new_imu_msg.linear_acceleration_covariance[0]=0;//1e-3;
+  new_imu_msg.linear_acceleration_covariance[4]=0;//1e-3;
+  new_imu_msg.linear_acceleration_covariance[8]=0;//1e-3;
 
 	imu_pub.publish(new_imu_msg);
 }
@@ -232,7 +215,7 @@ int main(int argc, char** argv)
   
   ros::NodeHandle n;
 
-  imu_pub = n.advertise<sensor_msgs::Imu>("imu_yaw_corrected", 1, false);
+  imu_pub = n.advertise<sensor_msgs::Imu>("imu_with_covariance", 1);
 
   ros::Subscriber imu_sub = n.subscribe("/mti/sensor/imu", 10, &imu_callback);
   // ros::Subscriber gps_sub = n.subscribe("/odometry/coarse_gps", 10, &gps_callback);

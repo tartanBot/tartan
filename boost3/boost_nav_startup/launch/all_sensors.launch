@@ -45,7 +45,7 @@
 
 
 	<!-- publish TF from camera_tof to the 3vistor joint in urdf -->
-		<node pkg="tf" type="static_transform_publisher" name="tof_tf_static_broadcaster" args="0 0 0 3.14159 -1.570795 0 tvistor_link camera_tof 100" />
+		<!-- <node pkg="tf" type="static_transform_publisher" name="tof_tf_static_broadcaster" args="0 0 0 3.14159 -1.570795 0 tvistor_link camera_tof 100" /> -->
 
 	<!-- publish TF from laser link to front_camera -->
 		<node pkg="tf" type="static_transform_publisher" name="lrf_tf_static_broadcaster" args="-0.046 0.114 0 0 0 -1.570795 front_camera_link sick_561_laser 100" />

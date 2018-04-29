@@ -18,6 +18,6 @@
 
 	 
 
-	<include file="$(find boost_nav_startup)/launch/viz_startup.launch"/>
+	<!-- <include file="$(find boost_nav_startup)/launch/viz_startup.launch"/> -->
 
 </launch>
