@@ -8,13 +8,13 @@ TrajectoryPlannerROS:
   acc_lim_x: 0.5
   acc_lim_y: 0.5
 
-  holonomic_robot: true
+  holonomic_robot: false
 
   meter_scoring: true
-  xy_goal_tolerance: 0.2
-  yaw_goal_tolerance: 0.2
+  xy_goal_tolerance: 1
+  yaw_goal_tolerance: 2
   global_frame: wheel_encoder/odom
-  controller_frequency: 100
+  controller_frequency: 20
   sim_time: 2.0
 
   # pdist_scale: 0.3
