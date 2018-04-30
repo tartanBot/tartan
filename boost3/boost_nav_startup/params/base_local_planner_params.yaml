@@ -13,4 +13,5 @@ TrajectoryPlannerROS:
   meter_scoring: true
   xy_goal_tolerance: 0.2
   yaw_goal_tolerance: 0.2
+  global_frame: wheel_encoder/odom
 
