@@ -27,14 +27,14 @@ local_costmap:
   #END VOXEL STUFF
 
   # common parameters (if you change here, change also in global yaml)
-  obstacle_range: 10.0
-  raytrace_range: 10.5
+  obstacle_range: 4.0
+  raytrace_range: 4.5
   footprint: [[0.60, -0.25], [0.60, 0.25], [-0.60, 0.25], [-0.60, -0.25]]
   inflation_radius: 0.2
   reset_distance: 10.0
   footprint_clearing_enabled: true
 
-  transform_tolerance: 0.3
+  transform_tolerance: 1
   max_obstacle_height: 3.0
   #robot_radius: 0.46
   footprint_padding: 0.30
@@ -45,6 +45,6 @@ local_costmap:
   #   observation_persistence: 0.0, marking: true, clearing: true, max_obstacle_height: 3.0, min_obstacle_height: -3.0,
   #   topic: /passthroughY/output}
 
-  sick_scan: {data_type: LaserScan, expected_update_rate: 0.5,
+  sick_scan: {data_type: LaserScan, expected_update_rate: 3.0,
 observation_persistence: 0.0, marking: true, clearing: true, max_obstacle_height: 5, min_obstacle_height: -2,
     topic: /sick/scan, inf_is_valid: true}
