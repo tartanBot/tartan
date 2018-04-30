@@ -14,4 +14,5 @@ TrajectoryPlannerROS:
   xy_goal_tolerance: 0.2
   yaw_goal_tolerance: 0.2
   global_frame: wheel_encoder/odom
+  controller_frequency: 100.0
 

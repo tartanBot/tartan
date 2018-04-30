@@ -27,11 +27,6 @@ topics:
   #timeout : 0.5
   #priority: 30
 -
-  name    : joystick
-  topic   : joy_teleop/cmd_vel
-  timeout : 0.5
-  priority: 100
--
   name    : planner
   topic   : /cmd_vel
   timeout : 0.5
