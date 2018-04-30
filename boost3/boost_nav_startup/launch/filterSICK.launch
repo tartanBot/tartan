@@ -2,11 +2,11 @@
 <launch>
   <node pkg="nodelet" type="nodelet" name="tartan_pcl_man" args="manager" output="screen" />
   <node pkg="nodelet" type="nodelet" name="passthroughY" args="load pcl/PassThrough tartan_pcl_man" output="screen">
-    <remap from="~input" to="/statOutliers/inliers" />
+    <remap from="~input" to="/sick_3vistort_driver/points" />
     <rosparam>
       filter_field_name: y
       filter_limit_min: -1000.0
-      filter_limit_max: 0.1
+      filter_limit_max: -0.2
       filter_limit_negative: False
       output_frame: camera_tof
     </rosparam>
@@ -21,14 +21,14 @@
       output_frame: camera_tof
     </rosparam>
    </node>-->
-  <node pkg="nodelet" type="nodelet" name="statOutliers" args="load pcl/StatisticalOutlierRemoval tartan_pcl_man" output="screen">
+  <!-- <node pkg="nodelet" type="nodelet" name="statOutliers" args="load pcl/StatisticalOutlierRemoval tartan_pcl_man" output="screen">
     <remap from="~input" to="/sick_3vistort_driver/points" />
     <remap from="~output" to="/statOutliers/inliers" />
     <rosparam>
-        mean_k: 15
+        mean_k: 30
         stddev: 0.9
     </rosparam>
-   </node>
+   </node> -->
 
 
    <!-- push pointcloud_to_laserscan nodelet into sensor's nodelet manager-->
@@ -44,8 +44,8 @@
 
             angle_min: -1.5708 # -M_PI/2
             angle_max: 1.5708 # M_PI/2
-            angle_increment: 0.0087 # M_PI/360.0  0.5 deg
-            scan_time: 0.3333
+            angle_increment: 0.0174 # M_PI/360.0  0.5 deg
+            scan_time: 0.33
             range_min: 0.1
             range_max: 10.0
             use_inf: true
@@ -58,6 +58,6 @@
             concurrency_level: 1
         </rosparam>
 
-    </node>
+    </node> 
 
 </launch>
