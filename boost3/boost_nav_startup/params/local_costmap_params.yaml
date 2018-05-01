@@ -14,7 +14,7 @@ local_costmap:
   rolling_window: true
   width: 10.0
   height: 10.0
-  resolution: 0.025
+  resolution: 0.1
   #end - COMMENT these lines if you set static_map to true
 
   #START VOXEL STUFF
@@ -27,8 +27,8 @@ local_costmap:
   #END VOXEL STUFF
 
   # common parameters (if you change here, change also in global yaml)
-  obstacle_range: 4.0
-  raytrace_range: 4.5
+  obstacle_range: 10.0
+  raytrace_range: 10.5
   footprint: [[0.60, -0.25], [0.60, 0.25], [-0.60, 0.25], [-0.60, -0.25]]
   inflation_radius: 0.2
   reset_distance: 10.0
