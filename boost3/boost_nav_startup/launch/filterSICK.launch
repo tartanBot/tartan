@@ -15,7 +15,11 @@
   <node pkg="nodelet" type="nodelet" name="voxelgrid" args="load pcl/VoxelGrid tartan_pcl_man" output="screen">
     <remap from="~input" to="/sick_3vistort_driver/points" />
     <rosparam>
-      leaf_size: 0.1
+      filter_field_name: x
+      filter_limit_min: -1000.0
+      filter_limit_max: 1000.0
+      filter_limit_negative: False
+      leaf_size: 0.05
     </rosparam>
    </node>
   <!--<node pkg="nodelet" type="nodelet" name="passthroughZ" args="load pcl/PassThrough tartan_pcl_man" output="screen">
